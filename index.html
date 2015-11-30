@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8' />
+    <title></title>
+    <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.11.4/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.11.4/mapbox-gl.css' rel='stylesheet' />
+    <style>
+      body { margin:0; padding:0; }
+      #map { position:absolute; top:0; bottom:0; width:100%; }
+      #range {
+      position: absolute;
+      bottom: 10px;
+      width: 60%;
+      margin-left: 20%;
+      margin-right: 20%;
+      }
+      #rangeInput {
+      width: 100%;
+              }
+    </style>
+  </head>
+  <body>
+
+    <div id='map'></div>
+    <div id="range">
+      <input id="rangeInput" type="range" min="5" max="800" value="0" />
+      </div>
+    <script>
+      mapboxgl.accessToken = 'pk.eyJ1IjoicGxhbmVtYWQiLCJhIjoiemdYSVVLRSJ9.g3lbg_eN0kztmsfIPxa9MQ';
+      var map = new mapboxgl.Map({
+      container: 'map', // container id
+      style: 'mapbox://styles/planemad/cih4lkqoe000uawltvq7k9fnn', //hosted style id
+      center: [139.6431, 36.2335], // starting position
+      zoom: 10 // starting zoom
+      });
+      
+      map.on('style.load', function () {
+      map.addSource('japan_changesets', {
+      type: 'vector',
+      url: 'mapbox://maning.japan_changesets'
+      });
+      
+      map.addLayer({
+      id: 'japan_changesets',
+      type: 'line',
+      
+      "filter": ["==","$type","Polygon"],
+      "source": 'japan_changesets',
+      "source-layer": 'japan_changesetsgeojson',
+      paint:{
+      "line-color": "rgba(255,255,0,0.7)",
+      "line-opacity": 0.75,
+      "line-dasharray": [3,1],
+      "line-width": 1.8
+      }
+      });
+
+      document.getElementById('rangeInput').addEventListener('change', function(e) {
+      var value = this.value;
+      map.setFilter('japan_changesets', ['>', 'numChanges', parseInt(value)]);
+          });
+
+      });
+    </script>
+
+  </body>
+</html>
+
