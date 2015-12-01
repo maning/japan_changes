@@ -33,7 +33,8 @@
       container: 'map', // container id
       style: 'mapbox://styles/planemad/cih4lkqoe000uawltvq7k9fnn', //hosted style id
       center: [139.6431, 36.2335], // starting position
-      zoom: 10 // starting zoom
+      zoom: 10,// starting zoom
+      hash: true
       });
       
       map.on('style.load', function () {
@@ -48,7 +49,7 @@
       
       "filter": ["==","$type","Polygon"],
       "source": 'japan_changesets',
-      "source-layer": 'japan_changesetsgeojson',
+      "source-layer": 'japan_changesets_sep1tooct20geojson',
       paint:{
       "line-color": "rgba(255,255,0,0.7)",
       "line-opacity": 0.75,
